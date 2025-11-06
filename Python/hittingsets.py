@@ -1,8 +1,52 @@
 def run_hitting_set_algorithm(conflict_sets):
+    # Goal: The smallest possible explanation for the observed faults
     """
     Algorithm that handles the entire process from conflict sets to hitting sets
 
     :param conflict_sets: list of conflict sets as list
     :return: the hitting sets and minimal hitting sets as list of lists
     """
-    return None, None
+
+    # Check to see if the hitting set and conflicts have an intersection
+    def is_intersected(hitting_set, conflict_sets):
+        intersections = 0
+        for conflict in conflict_sets:
+            if set(hitting_set) & set(conflict):
+                intersections += 1
+        return intersections == len(conflict_sets)
+     
+    # Check to see if it is a minimal hitting set
+    def is_minimal(hitting_set, minimal_sets):
+        for minimal in minimal_sets:
+            if minimal.issubset(hitting_set):
+                return False
+        return True 
+    
+    # Variables 
+    # Our representation for the tree structure
+    to_explore_nodes = [[]] #tree nodes
+    minimal_sets = []
+
+    # While there are still codes to explore go on
+    # Implementing hitting set tree algorithm
+    while len(to_explore_nodes) > 0 :
+        # Instead of pop we should implement the heuritics here
+        ongoing_node = to_explore_nodes.pop(0)
+
+        # In case it is minimal
+        if is_intersected(ongoing_node, conflict_sets):
+            if is_minimal(ongoing_node, minimal_sets):
+                minimal_sets.append(ongoing_node)
+        
+        # In case a conflict is not overlapped with the hitting set find the first conflict
+        for conflict in conflict_sets:
+            if not conflict.issubset(ongoing_node):
+                not_hit_yet = conflict
+                break
+        # For every component in the conflict set add to to_explore_nodes
+        for set in not_hit_yet:
+            if not set.issubset(to_explore_nodes):
+                to_explore_nodes.append(set)
+        # Make Hitting sets which are possible combination of different conflicts 
+
+    return minimal_sets
