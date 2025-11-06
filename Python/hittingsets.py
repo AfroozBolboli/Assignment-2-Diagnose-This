@@ -1,5 +1,5 @@
 def run_hitting_set_algorithm(conflict_sets):
-    # The smallest possible explanation for the observed faults
+    # Goal: The smallest possible explanation for the observed faults
     """
     Algorithm that handles the entire process from conflict sets to hitting sets
 
@@ -8,26 +8,45 @@ def run_hitting_set_algorithm(conflict_sets):
     """
 
     # Check to see if the hitting set and conflicts have an intersection
-    def is_intersected(hitting_set, conflict):
-        return
+    def is_intersected(hitting_set, conflict_sets):
+        intersections = 0
+        for conflict in conflict_sets:
+            if set(hitting_set) & set(conflict):
+                intersections += 1
+        return intersections == len(conflict_sets)
      
     # Check to see if it is a minimal hitting set
     def is_minimal(hitting_set, minimal_sets):
-        return 
+        for minimal in minimal_sets:
+            if minimal.issubset(hitting_set):
+                return False
+        return True 
     
     # Variables 
-    # Good representation for the tree structure
-    to_explore_nodes = [] #tree nodes
+    # Our representation for the tree structure
+    to_explore_nodes = [[]] #tree nodes
     minimal_sets = []
 
     # While there are still codes to explore go on
     # Implementing hitting set tree algorithm
-    while():
-        break
-        # if is_intersected
-            #if is_minimal
-                #  add to minimal_sets
+    while len(to_explore_nodes) > 0 :
+        # Instead of pop we should implement the heuritics here
+        ongoing_node = to_explore_nodes.pop(0)
 
+        # In case it is minimal
+        if is_intersected(ongoing_node, conflict_sets):
+            if is_minimal(ongoing_node, minimal_sets):
+                minimal_sets.append(ongoing_node)
+        
+        # In case a conflict is not overlapped with the hitting set find the first conflict
+        for conflict in conflict_sets:
+            if not conflict.issubset(ongoing_node):
+                not_hit_yet = conflict
+                break
+        # For every component in the conflict set add to to_explore_nodes
+        for set in not_hit_yet:
+            if not set.issubset(to_explore_nodes):
+                to_explore_nodes.append(set)
         # Make Hitting sets which are possible combination of different conflicts 
 
-    return None, None
+    return minimal_sets
