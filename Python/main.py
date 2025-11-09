@@ -3,12 +3,35 @@ from guesscomponentsgame import choose_components, score_function
 from conflictsets import ConflictSetRetriever
 from hittingsets import run_hitting_set_algorithm
 from os.path import join
-from heuristic_tree import HeuristicTree, HeuristicTreeNode
+from heuristic import HeuristicNode, explore  # <-- your simplified heuristic version
+
+def run_diagnosis_with_heuristics():
+    """
+    Runs a simple heuristic exploration showing the order of reasoning steps.
+    """
+    root = HeuristicNode("Diagnose Circuit", 5)
+    csets = HeuristicNode("Find Conflict Sets", 3)
+    hsets = HeuristicNode("Compute Hitting Sets", 2)
+    visualize = HeuristicNode("Visualize Results", 7)
+
+    root.add_child(csets)
+    root.add_child(hsets)
+    root.add_child(visualize)
+
+    csets.add_child(HeuristicNode("Analyze components", 4))
+    csets.add_child(HeuristicNode("Detect inconsistencies", 1))
+    hsets.add_child(HeuristicNode("Generate minimal sets", 3))
+    hsets.add_child(HeuristicNode("Evaluate diagnoses", 2))
+    visualize.add_child(HeuristicNode("Plot circuit", 6))
+    visualize.add_child(HeuristicNode("Print diagnosis summary", 8))
+
+    print("\n=== Heuristic Reasoning Outcome ===")
+    explore(root)
+    print("===================================\n")
+
 
 if __name__ == '__main__':
-
     document = "circuit1.txt"
-
     game = False
 
     # It only makes sense to play the game if you have the hitting set algorithm implemented.
@@ -38,15 +61,6 @@ if __name__ == '__main__':
     if game:
         score = score_function(conflict_sets, chosen_conflict_sets)
         print(f"Your score: {score:.2f}%")
-def run_diagnosis_with_heuristics():
-    root = HeuristicTreeNode("Diagnose Circuit", 5)
-    csets = HeuristicTreeNode("Find Conflict Sets", 3)
-    hsets = HeuristicTreeNode("Compute Hitting Sets", 2)
-    root.add_child(csets)
-    root.add_child(hsets)
 
-    tree = HeuristicTree(root)
-    tree.explore()
-
-if __name__ == "__main__":
+    # Run heuristic reasoning exploration:
     run_diagnosis_with_heuristics()
