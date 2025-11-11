@@ -15,16 +15,16 @@ class HeuristicNode:
         self.children.append(child_node)
 
     def __lt__(self, other):
-        # Compare nodes
+        # compare nodes
         return self.heuristic_score < other.heuristic_score
 
 
 def explore(start_node):
-    # best-first search for exploring
+    # best first search for exploring
     frontier = []
     heapq.heappush(frontier, start_node)
 
-    print("Exploration order (lower heuristic = higher priority):\n")
+    print("Exploration order (lower heuristic = higher priority). Root gets printed first, then the children:\n")
 
     while frontier:
         current = heapq.heappop(frontier)
@@ -57,5 +57,5 @@ if __name__ == "__main__":
     visualize.add_child(HeuristicNode("Plot circuit", heuristic_score=6))
     visualize.add_child(HeuristicNode("Print diagnosis summary", heuristic_score=8))
 
-    # Explore using heuristics
+    # Explore 
     explore(root)
