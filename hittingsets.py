@@ -1,4 +1,6 @@
-def run_hitting_set_algorithm(conflict_sets):
+from heuristic import BFSHeuristic, SimpleHeuristic
+
+def run_hitting_set_algorithm(conflict_sets, heuristic):
     # Goal: The smallest possible explanation for the observed faults
     """
     Algorithm that handles the entire process from conflict sets to hitting sets
@@ -29,10 +31,23 @@ def run_hitting_set_algorithm(conflict_sets):
 
     # While there are still codes to explore go on
     # Implementing hitting set tree algorithm
+    explored_count = 0
     while len(to_explore_nodes) > 0 :
-        
+        explored_count += 1
+        # Use of heuristics 
+        best_score = None
+        best_node = None
+        for node in to_explore_nodes:
+            score = heuristic.evaluate(node) 
+            if best_score is None or score < best_score:
+                best_score = score
+                best_node = node
+
+
+        ongoing_node = best_node
+        to_explore_nodes.remove(ongoing_node)
+
         # Instead of pop we should implement the heuritics here
-        ongoing_node = to_explore_nodes.pop(0)
         print("Exploring:", ongoing_node)
         print("To explore next:", to_explore_nodes)
         # In case it is minimal
@@ -70,4 +85,5 @@ def run_hitting_set_algorithm(conflict_sets):
                     to_explore_nodes.append(new_node)
             # Make Hitting sets which are possible combination of different conflicts 
     hitting_sets = minimal_sets 
+    print('explored nodes: ', explored_count)
     return hitting_sets,minimal_sets
