@@ -19,6 +19,8 @@ def plot_circuit(document):
         plot_circuit_6()
     elif document == 'circuit7.txt':
         plot_circuit_7()
+    elif document == 'circuit8.txt':
+        plot_circuit_8()
     else:
         print("Sorry, I do not have instructions on how to plot this circuit.")
 
@@ -245,3 +247,33 @@ def plot_circuit_7():
         d.add(elm.Dot().at(o5.out).label('0', loc='right'))
 
     webbrowser.open('.circuit.svg')
+
+
+def plot_circuit_8():
+    with schemdraw.Drawing(file='.circuit.svg', show=False) as d:
+
+        # XOR gate
+        m = d.add(logic.Xor(inputs=2).label('M'))
+        a1 = d.add(logic.Xor(inputs=2).label('A1'))
+        
+        # Place AND gate below
+        w = d.add(logic.And(inputs=2).label('W').at((0, -3)))
+        b1 = d.add(logic.And(inputs=2).label('B1').at((0, -3)))
+
+        # Input annotations
+        d.add(elm.Dot().at(m.in1).label('0', loc='left'))
+        d.add(elm.Dot().at(m.in2).label('1', loc='left'))
+        d.add(elm.Dot().at(w.in1).label('0', loc='left'))
+        d.add(elm.Dot().at(w.in2).label('1', loc='left'))
+        d.add(elm.Dot().at(a1.in1).label('0', loc='left'))
+        d.add(elm.Dot().at(a1.in2).label('1', loc='left'))
+        d.add(elm.Dot().at(b1.in1).label('0', loc='left'))
+        d.add(elm.Dot().at(b1.in2).label('1', loc='left'))
+
+        # Output observations
+        d.add(elm.Dot().at(m.out).label('0', loc='right'))
+        d.add(elm.Dot().at(w.out).label('1', loc='right'))
+        d.add(elm.Dot().at(a1.out).label('0', loc='right'))
+        d.add(elm.Dot().at(b1.out).label('1', loc='right'))
+
+    webbrowser.open('circuitssvg/circuit3.svg')

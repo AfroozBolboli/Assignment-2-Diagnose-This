@@ -3,6 +3,7 @@ from guesscomponentsgame import choose_components, score_function
 from conflictsets import ConflictSetRetriever
 from hittingsets import run_hitting_set_algorithm
 from os.path import join
+import time
 from heuristic import BFSHeuristic, SimpleHeuristic, FrequencyHeuristic, DFSHeuristic
 
 def run_diagnosis_with_heuristicsMicha():
@@ -56,9 +57,13 @@ if __name__ == '__main__':
         chosen_conflict_sets = choose_components()
         print("Your chosen conflict sets:", chosen_conflict_sets)
         heuristic = SimpleHeuristic(chosen_conflict_sets)
+        
+        start = time.time()
         chosen_hitting_sets, chosen_minimal_hitting_sets = run_hitting_set_algorithm(chosen_conflict_sets, heuristic)
+        end = time.time()
         print("Your hitting sets:", chosen_hitting_sets)
         print("Your minimal hitting sets:", chosen_minimal_hitting_sets, "\n")
+        print("The running time: ",end-start)
 
     # Collect conflict sets:
     csr = ConflictSetRetriever(join("circuits", document))
@@ -85,3 +90,6 @@ if __name__ == '__main__':
 
 #[['X1', 'X2'], ['X3', 'X4'], ['X2', 'X4']]
 # Your score: 33.33%
+# The running time:  0.0001289844512939453 SIMPLE
+# The running time:  0.00013589859008789062
+# The running time:  0.00015115737915039062

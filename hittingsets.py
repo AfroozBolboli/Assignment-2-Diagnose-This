@@ -59,7 +59,7 @@ def run_hitting_set_algorithm(conflict_sets, heuristic):
         # In case a conflict is not overlapped with the hitting set find the first conflict
         not_hit_yet = None
         for conflict in conflict_sets:
-            if not set(conflict).issubset(set(ongoing_node)):
+            if set(conflict).isdisjoint(set(ongoing_node)):
                 not_hit_yet = conflict
                 break
         
